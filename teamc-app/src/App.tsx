@@ -1,10 +1,21 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import { Button } from "@mui/material";
+import UserListPage from "./pages/UserListPage";
+import UserProfilePage from "./pages/UserProfilePage";
+import TaskDetailPage from "./pages/TaskDetailPage";
+import TaskListPage from "./pages/TaskListPage";
 
 function App() {
   return (
     <div className="App">
-      <Button variant="contained">Hello World</Button>
+      <Router>
+        <Routes>
+          <Route path="/users" Component={UserListPage} />
+          <Route path="/users/:id" Component={UserProfilePage} />
+          <Route path="/tasks" Component={TaskListPage} />
+          <Route path="/tasks/:id" Component={TaskDetailPage} />
+        </Routes>
+      </Router>
     </div>
   );
 }
