@@ -1,10 +1,15 @@
 import "./App.css";
-import { Button } from "@mui/material";
+import UserComponent from "./components/UserComponent";
 
 function App() {
   return (
     <div className="App">
-      <Button variant="contained">Hello World</Button>
+      <UserComponent
+        userId={0}
+        userName={"細谷"}
+        status={1}
+        tasks={["a", "b", "c"]}
+      />
     </div>
   );
 }
