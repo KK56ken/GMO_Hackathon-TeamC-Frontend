@@ -1,6 +1,7 @@
 import React from "react";
 import UserComponent from "../components/UserComponent";
 import Grid from "@mui/material/Grid";
+import Container from "@mui/material/Container";
 
 const users = [
   {
@@ -37,7 +38,7 @@ const users = [
 
 const UserListPage = () => {
   return (
-    <div>
+    <Container>
       <h1>ユーザー一覧</h1>
       <Grid container spacing={2}>
         {users.map((user) => (
@@ -51,7 +52,7 @@ const UserListPage = () => {
           </Grid>
         ))}
       </Grid>
-    </div>
+    </Container>
   );
 };
 
