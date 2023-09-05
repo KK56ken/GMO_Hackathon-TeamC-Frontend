@@ -1,15 +1,21 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import UserComponent from "./components/UserComponent";
+import UserListPage from "./pages/UserListPage";
+import UserProfilePage from "./pages/UserProfilePage";
+import TaskDetailPage from "./pages/TaskDetailPage";
+import TaskListPage from "./pages/TaskListPage";
 
 function App() {
   return (
     <div className="App">
-      <UserComponent
-        userId={0}
-        userName={"細谷"}
-        status={1}
-        tasks={["a", "b", "c"]}
-      />
+      <Router>
+        <Routes>
+          <Route path="/users" Component={UserListPage} />
+          <Route path="/users/:id" Component={UserProfilePage} />
+          <Route path="/tasks" Component={TaskListPage} />
+          <Route path="/tasks/:id" Component={TaskDetailPage} />
+        </Routes>
+      </Router>
     </div>
   );
 }
