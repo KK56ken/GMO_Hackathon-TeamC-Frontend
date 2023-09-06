@@ -3,16 +3,10 @@ import UserComponent from "../components/UserComponent";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import { fetchUsers } from "../service/api/UserAPIClient";
-
-type User = {
-  userId: number;
-  userName: string;
-  status: number;
-  tasks: string[];
-};
+import { AbstractUser } from "../types/AbstractUser";
 
 const UserListPage = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<AbstractUser[]>([]);
 
   useEffect(() => {
     async function getUsers() {

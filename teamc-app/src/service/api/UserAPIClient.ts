@@ -1,13 +1,8 @@
+import { AbstractUser } from "../../types/AbstractUser";
+
 const baseURL = "http://localhost:8000";
 
-type User = {
-  userId: number;
-  userName: string;
-  status: number;
-  tasks: string[];
-};
-
-export const fetchUsers = async (): Promise<User[] | null> => {
+export const fetchUsers = async (): Promise<AbstractUser[] | null> => {
   try {
     const response = await fetch(`${baseURL}/profile`, {
       method: "GET",
@@ -24,7 +19,7 @@ export const fetchUsers = async (): Promise<User[] | null> => {
 
     const data = await response.json();
     if (Array.isArray(data.users)) {
-      return data.users as User[];
+      return data.users as AbstractUser[];
     } else {
       throw new Error("Invalid response format");
     }
