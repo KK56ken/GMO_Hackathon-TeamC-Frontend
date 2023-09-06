@@ -19,12 +19,21 @@ const UserComponent = (userComponentProps: UserComponentProps) => {
           <Typography variant="h5" component="div">
             {userComponentProps.userName} {emojis[userComponentProps.status]}
           </Typography>
-          <Typography component="div">取り組みタスク一覧</Typography>
-          <Typography variant="body2">
-            {userComponentProps.tasks.map((task) => (
-              <li>{task}</li>
-            ))}
-          </Typography>
+          {userComponentProps.status === 2 &&
+          userComponentProps.tasks.length > 0 ? (
+            <>
+              <Typography variant="subtitle1" component="div">
+                取り組みタスク一覧
+              </Typography>
+              <ul>
+                {userComponentProps.tasks.map((task) => (
+                  <li>{task}</li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <></>
+          )}
         </CardContent>
       </CardActionArea>
     </Card>

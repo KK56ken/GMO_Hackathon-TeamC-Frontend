@@ -2,8 +2,8 @@ import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import Chip from "@mui/material/Chip";
 import { CardActionArea } from "@mui/material";
+import SkillSets from "./SkillSets";
 
 type TaskComponentProps = {
   id: number;
@@ -25,11 +25,7 @@ const TaskComponent = (taskComponentProps: TaskComponentProps) => {
           <Typography sx={{ ml: 1 }} color="text.secondary" gutterBottom>
             {taskComponentProps.userName}
           </Typography>
-          <Typography variant="body2">
-            {taskComponentProps.skillSet.map((skill) => (
-              <Chip label={skill} color="primary" />
-            ))}
-          </Typography>
+          <SkillSets skillSet={taskComponentProps.skillSet} />
           <Typography sx={{ ml: 1 }} color="text.secondary" gutterBottom>
             {taskComponentProps.taskDate.toLocaleDateString()}
           </Typography>
