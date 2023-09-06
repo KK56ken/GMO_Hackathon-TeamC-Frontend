@@ -1,7 +1,8 @@
-import { Button } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import Chip from "@mui/material/Chip";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import TaskComponent from "../components/TaskComponent";
 
 type UserProfilePageProps = {
   name: string;
@@ -54,7 +55,7 @@ const UserProfilePage = () => {
   return (
     <Container>
       <div style={{ display: "flex", alignItems: "center" }}>
-        <h1>{userProfilePageProps.name}</h1>
+        <Typography variant="h2">{userProfilePageProps.name}</Typography>
         <Typography style={{ fontSize: 50 }}>
           {emojis[userProfilePageProps.status]}
         </Typography>
@@ -74,10 +75,22 @@ const UserProfilePage = () => {
           <Chip label={skill} color="primary" />
         ))}
       </Typography>
+      <Typography variant="h4">抱えているタスク</Typography>
       <Typography variant="body2">
-        {userProfilePageProps.tasks.map((task) => (
-          <li>{task.title}</li>
-        ))}
+        <Grid container spacing={2}>
+          {userProfilePageProps.tasks.map((task) => (
+            <Grid item xs={12} sm={6} md={4} key={task.id}>
+              <TaskComponent
+                id={task.id}
+                title={task.title}
+                userName={task.userName}
+                skillSet={task.skillSet}
+                taskDate={task.taskDate}
+                concernDesc={task.concernDesc}
+              />
+            </Grid>
+          ))}
+        </Grid>
       </Typography>
     </Container>
   );
