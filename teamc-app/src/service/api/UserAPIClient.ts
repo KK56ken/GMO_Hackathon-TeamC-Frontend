@@ -1,14 +1,34 @@
-// http://localhost:8000をベースURLとする
+import { AbstractUser } from "../../types/AbstractUser";
+
 const baseURL = "http://localhost:8000";
 
-// baseURLにGETリクエストを送り、レスポンスをconsole.logする関数
-export const getStatus = async () => {
-  const response = await fetch(baseURL);
-  const data = await response.json();
-  console.log(data);
+export const fetchUsers = async (): Promise<AbstractUser[] | null> => {
+  try {
+    const response = await fetch(`${baseURL}/profile`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch data: ${response.status} - ${response.statusText}`
+      );
+    }
+
+    const data = await response.json();
+    if (Array.isArray(data.users)) {
+      return data.users as AbstractUser[];
+    } else {
+      throw new Error("Invalid response format");
+    }
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 };
 
-// /profile/:idにGETリクエストを送り、レスポンスをconsole.logする関数
 export const getUser = async (id: number) => {
   const response = await fetch(`${baseURL}/profile/${id}`);
   const data = await response.json();
