@@ -4,11 +4,13 @@ import UserListPage from "./pages/UserListPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import TaskDetailPage from "./pages/TaskDetailPage";
 import TaskListPage from "./pages/TaskListPage";
+import Header from "./components/Header";
 
 function App() {
   return (
     <div className="App">
       <Router>
+        <Header />
         <Routes>
           <Route path="/users" Component={UserListPage} />
           <Route path="/users/:id" Component={UserProfilePage} />
