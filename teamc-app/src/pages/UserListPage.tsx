@@ -1,42 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UserComponent from "../components/UserComponent";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
+import { fetchUsers } from "../service/api/UserAPIClient";
 
-const users = [
-  {
-    userId: 1,
-    userName: "user1",
-    status: 0,
-    tasks: ["task1", "task2", "task3"],
-  },
-  {
-    userId: 2,
-    userName: "user2",
-    status: 1,
-    tasks: ["task4", "task5", "task6"],
-  },
-  {
-    userId: 3,
-    userName: "user3",
-    status: 2,
-    tasks: ["task7", "task8", "task9"],
-  },
-  {
-    userId: 4,
-    userName: "user4",
-    status: 0,
-    tasks: [],
-  },
-  {
-    userId: 5,
-    userName: "user5",
-    status: 2,
-    tasks: ["task14", "task25", "task36"],
-  },
-];
+type User = {
+  userId: number;
+  userName: string;
+  status: number;
+  tasks: string[];
+};
 
 const UserListPage = () => {
+  const [users, setUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    async function getUsers() {
+      const usersResponse = await fetchUsers();
+      if (usersResponse != null) {
+        setUsers(usersResponse);
+      }
+    }
+
+    getUsers();
+  }, []);
+
   return (
     <Container>
       <h1>ユーザー一覧</h1>
