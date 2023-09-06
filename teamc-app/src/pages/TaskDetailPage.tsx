@@ -1,7 +1,7 @@
 import Button from "@mui/material/Button";
-import Chip from "@mui/material/Chip";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import SkillSets from "../components/SkillSets";
 
 type TaskDetailPageProps = {
   title: string;
@@ -32,26 +32,6 @@ const TaskDetailPage = () => {
       {/* TODO: ちゃんと下揃えをしたい */}
       <div style={{ display: "flex", alignItems: "center" }}>
         <Typography variant="h2">{taskDetailPageProps.title}</Typography>
-        <Typography variant="h5">{taskDetailPageProps.userName}</Typography>
-      </div>
-      <Typography color="text.secondary" gutterBottom>
-        {taskDetailPageProps.taskDate.toLocaleDateString()}
-      </Typography>
-      <Typography variant="body2">
-        {taskDetailPageProps.skillSet.map((skill) => (
-          <Chip label={skill} color="primary" />
-        ))}
-      </Typography>
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          href={taskDetailPageProps.ticketLink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          チケットのページへ
-        </Button>
         <Button
           variant="contained"
           color="primary"
@@ -62,10 +42,30 @@ const TaskDetailPage = () => {
           このタスクを助ける(DMへ)
         </Button>
       </div>
+      <Typography color="text.secondary" gutterBottom>
+        {taskDetailPageProps.userName},{" "}
+        {taskDetailPageProps.taskDate.toLocaleDateString()}
+      </Typography>
+      <SkillSets skillSet={taskDetailPageProps.skillSet} />
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <Typography variant="h5" marginTop="10px">
+          タスクの詳細
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          href={taskDetailPageProps.ticketLink}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          チケットのページへ
+        </Button>
+      </div>
       {/* ここはmarkdownに対応しても面白いかも */}
-      <Typography variant="h5">タスクの詳細</Typography>
       <Typography variant="body2">{taskDetailPageProps.taskDetail}</Typography>
-      <Typography variant="h5">気になるところ</Typography>
+      <Typography variant="h5" marginTop="10px">
+        気になるところ
+      </Typography>
       <Typography variant="body2">{taskDetailPageProps.concernDesc}</Typography>
     </Container>
   );

@@ -1,9 +1,9 @@
-import { Button, Grid } from "@mui/material";
-import Chip from "@mui/material/Chip";
+import { Box, Button, Grid } from "@mui/material";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import TaskComponent from "../components/TaskComponent";
 import { emojis } from "../constants/Emojis";
+import SkillSets from "../components/SkillSets";
 
 type UserProfilePageProps = {
   name: string;
@@ -53,24 +53,22 @@ const UserProfilePage = () => {
   };
   return (
     <Container>
-      <Typography variant="h2">
-        {userProfilePageProps.name} {emojis[userProfilePageProps.status]}
-      </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        href={`slack://user?team=T05JTJTBSTS&id=${userProfilePageProps.slackId}`}
-      >
-        この人とDMする
-      </Button>
+      <Box display="flex" alignItems="center">
+        <Typography variant="h2" marginRight="16px">
+          {userProfilePageProps.name} {emojis[userProfilePageProps.status]}
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          href={`slack://user?team=T05JTJTBSTS&id=${userProfilePageProps.slackId}`}
+        >
+          この人とDMする
+        </Button>
+      </Box>
       <Typography color="text.secondary" gutterBottom>
         Department: {userProfilePageProps.department}
       </Typography>
-      <Typography variant="body2">
-        {userProfilePageProps.skillSet.map((skill) => (
-          <Chip label={skill} color="primary" />
-        ))}
-      </Typography>
+      <SkillSets skillSet={userProfilePageProps.skillSet} />
       <Typography variant="h4">抱えているタスク</Typography>
       <Typography variant="body2">
         <Grid container spacing={2}>
