@@ -3,6 +3,7 @@ import Chip from "@mui/material/Chip";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import TaskComponent from "../components/TaskComponent";
+import { emojis } from "../constants/Emojis";
 
 type UserProfilePageProps = {
   name: string;
@@ -21,8 +22,6 @@ type task = {
   taskDate: Date;
   concernDesc: string;
 };
-
-const emojis = ["😀", "😅", "😇"];
 
 const UserProfilePage = () => {
   const tasks: task[] = [
@@ -49,17 +48,14 @@ const UserProfilePage = () => {
     department: "Department 1",
     skillSet: ["react", "Docker"],
     slackId: "U05QQ2C3B61",
-    status: 1,
+    status: 2,
     tasks: tasks,
   };
   return (
     <Container>
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <Typography variant="h2">{userProfilePageProps.name}</Typography>
-        <Typography style={{ fontSize: 50 }}>
-          {emojis[userProfilePageProps.status]}
-        </Typography>
-      </div>
+      <Typography variant="h2">
+        {userProfilePageProps.name} {emojis[userProfilePageProps.status]}
+      </Typography>
       <Button
         variant="contained"
         color="primary"

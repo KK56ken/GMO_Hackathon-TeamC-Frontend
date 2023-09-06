@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 const Header: React.FC = () => {
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ marginBottom: 2 }}>
       <Toolbar>
         <Typography variant="h6" component="div">
           タスクヘルプツール
