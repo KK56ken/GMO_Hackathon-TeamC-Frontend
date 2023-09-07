@@ -37,30 +37,34 @@ export const fetchUsers = async (): Promise<AbstractUser[] | null> => {
 export const fetchUserInfo = async (id: number) => {
   try {
     const token = Cookies.get("access_token");
-    const response = await fetch(`${baseURL}/profile/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    });
+    if (token) {
+      const response = await fetch(`${baseURL}/profile/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
 
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch data: ${response.status} - ${response.statusText}`
-      );
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch data: ${response.status} - ${response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+      const detailUser: DetailUser = {
+        department: data.department,
+        name: data.name,
+        skillSet: data.skill_set,
+        slackId: data.slackId,
+        status: data.status,
+        tasks: data.tasks as AbstractTask[],
+      };
+      return detailUser;
+    } else {
+      throw new Error("token is not found");
     }
-
-    const data = await response.json();
-    const detailUser: DetailUser = {
-      department: data.department,
-      name: data.name,
-      skillSet: data.skill_set,
-      slackId: data.slackId,
-      status: data.status,
-      tasks: data.tasks as AbstractTask[],
-    };
-    return detailUser;
   } catch (error) {
     console.error(error);
     return null;
