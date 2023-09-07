@@ -16,6 +16,8 @@ const UserListPage = () => {
       }
     }
 
+    // localstrageにtokenがあるかどうかlogに出力
+    console.log(localStorage.getItem("token"));
     getUsers();
   }, []);
 
