@@ -19,6 +19,18 @@ type TaskDetailPageProps = {
 };
 
 const TaskDetailPage = () => {
+  const taskDetailPageProps: TaskDetailPageProps = {
+      title: "Task 1",
+      userName: "User 1",
+      taskDate: new Date(),
+      skillSet: ["skill 1", "skill 2"],
+      concernDesc: "Concern 1",
+      taskDetail:
+        "こんにちは。私はタスクの詳細です。\nよろしくお願いします。\n\n```ここにコードを書く```\n\n以上です。",
+      ticketLink: "https://www.google.com/",
+      slackId: "U05QQ2C3B61",
+    };
+
   const urlParams = useParams<{ id: string }>();
   if (urlParams.id === undefined) {
     return <div>URLが不正です</div>;
@@ -35,6 +47,7 @@ const TaskDetailPage = () => {
     if (!data) {
       return <div>No tasks available</div>;
     }
+  }
 
   return (
     <Container sx={{ marginTop: 5}}>
