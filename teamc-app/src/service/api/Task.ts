@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import { TaskData } from '../../types/Task';
+import { TaskData } from '../../types/TaskData';
 
 const BASEURL = "http://localhost:8000"
 
