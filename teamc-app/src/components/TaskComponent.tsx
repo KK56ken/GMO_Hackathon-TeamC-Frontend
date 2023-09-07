@@ -16,7 +16,7 @@ type TaskComponentProps = {
 
 const TaskComponent = (taskComponentProps: TaskComponentProps) => {
   return (
-    <Card sx={{ minWidth: 275, margin: "20px" }} variant="outlined">
+    <Card sx={{ minWidth: 275, margin: "20px", boxShadow: 2}} variant="outlined">
       <CardActionArea href={`/tasks/${taskComponentProps.id}`}>
         <CardContent>
           <Typography variant="h5" component="div">
