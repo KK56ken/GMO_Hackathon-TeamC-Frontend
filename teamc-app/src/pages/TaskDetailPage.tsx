@@ -41,6 +41,9 @@ const TaskDetailPage = () => {
         >
           このタスクを助ける(DMへ)
         </Button>
+        <Button variant="text" color="primary">
+          このタスクは解決した
+        </Button>
       </div>
       <Typography color="text.secondary" gutterBottom>
         {taskDetailPageProps.userName},{" "}
