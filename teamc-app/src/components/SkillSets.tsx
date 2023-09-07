@@ -8,7 +8,7 @@ type SkillsetsProps = {
 
 const SkillSets = (skillsetsProps: SkillsetsProps) => {
   return (
-    <Typography variant="body2">
+    <Typography variant="body2" sx={{ fontWeight: "bold" }}>
       {skillsetsProps.skillSet.map((skill, index) => (
         <Chip
           key={index}
