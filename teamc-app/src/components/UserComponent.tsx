@@ -10,10 +10,10 @@ import { AbstractUser } from "../types/AbstractUser";
 const UserComponent = (abstractUser: AbstractUser) => {
   return (
     <Card sx={{ minWidth: 275, margin: "20px" }} variant="outlined">
-      <CardActionArea href={`/users/${abstractUser.userId}`}>
+      <CardActionArea href={`/users/${abstractUser.user_id}`}>
         <CardContent>
           <Typography variant="h5" component="div">
-            {abstractUser.userName} {emojis[abstractUser.status]}
+            {abstractUser.user_name} {emojis[abstractUser.status]}
           </Typography>
           {abstractUser.status === 2 && abstractUser.tasks.length > 0 ? (
             <>
