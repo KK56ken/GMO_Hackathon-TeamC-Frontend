@@ -7,15 +7,24 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { AuthUser } from "../types/AuthUser";
+import { PostLoginData } from "../service/api/AuthAPIClient";
+import { setCookie } from "../service/cookie/CookieHandler";
 
 const LoginPage = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const postData: AuthUser = {
+      email: data.get("email") as string,
+      password: data.get("password") as string,
+    };
+    const response = await PostLoginData(postData);
+    if (response != null) {
+      // tokenをcookieにhttpOnlyで保存する
+      setCookie("token", response.token, { httpOnly: true });
+      window.location.href = "/users";
+    }
   };
 
   return (
