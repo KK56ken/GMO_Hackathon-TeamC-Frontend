@@ -30,16 +30,12 @@ export const PostSignupData = async (data: SignUpUser) => {
 
 export const PostLoginData = async (data: AuthUser) => {
   try {
-    const postData = {
-      username: data.username,
-      password: data.password,
-    };
     const response = await fetch(`${baseURL}/auth`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: JSON.stringify(postData),
+      body: "username=" + data.username + "&password=" + data.password,
     });
 
     console.log(response);
