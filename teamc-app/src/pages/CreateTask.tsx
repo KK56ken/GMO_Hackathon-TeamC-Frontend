@@ -3,14 +3,29 @@ import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import CardActions from "@mui/material/CardActions";  
+import Box from "@mui/material/Box";  
 import Button from "@mui/material/Button"; 
-import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem"; 
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Chip from "@mui/material/Chip";
+import { InputLabel } from "@mui/material";
+
+const names = ["React", "Python", "Ruby", "Java", "Kotlin", "Swift"];
 
 const CreateTask = () => {
+
+  const [skillSet, setSkillSet] = React.useState<string[]>([]);
+
+  const handleChange = (event: SelectChangeEvent<typeof skillSet>) => {
+    const {
+      target: { value },
+    } = event;
+    setSkillSet(value as string[]);
+  };
+
 
   return (
     <Container>
@@ -38,11 +53,32 @@ const CreateTask = () => {
             </Grid>
 
             <Grid item xs={8}>
-              <Select>
-                <MenuItem value={0}>golang</MenuItem>
-                <MenuItem value={1}>python</MenuItem>
-                <MenuItem value={2}>node</MenuItem>
-              </Select>
+              <Grid item xs={12}>
+                <InputLabel>Skill Set *</InputLabel>
+                <Select
+                  fullWidth
+                  name="skillset"
+                  labelId="skillset"
+                  id="skillset"
+                  multiple
+                  value={skillSet}
+                  onChange={handleChange}
+                  input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                  renderValue={(selected) => (
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip key={value} label={value} />
+                      ))}
+                    </Box>
+                  )}
+                >
+                  {names.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Grid>
             </Grid>
 
             <Grid item xs={4}>
@@ -69,6 +105,9 @@ const CreateTask = () => {
 
             <Grid item xs={8}></Grid>
               <TextField
+                variant="outlined"
+                multiline
+                minRows="10"
                 required
                 fullWidth
                 name=""
@@ -78,9 +117,9 @@ const CreateTask = () => {
             </Grid>
 
         </CardContent>
-        <CardActions>
-          <Button size="small">Learn More</Button>
-        </CardActions>
+        <Grid item>
+          <Button size="large">タスクを追加</Button>
+        </Grid>
       </Card>
     </Container>
   );
