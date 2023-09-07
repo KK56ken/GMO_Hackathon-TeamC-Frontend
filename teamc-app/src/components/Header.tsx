@@ -7,15 +7,15 @@ import { Link } from "react-router-dom";
 
 const Header: React.FC = () => {
   return (
-    <AppBar position="static" sx={{ marginBottom: 2 }} style={{ color: "#000000", backgroundColor: "#ffffff" }}>
+    <AppBar position="static" elevation={3} sx={{ marginBottom: 2 }} style={{ color: "#000000", backgroundColor: "#ffffff" }}>
       <Toolbar>
-        <Typography variant="h6" component="div">
+        <Typography variant="h6" component="div" sx={{ marginRight: 3 }}>
           タスクヘルプツール
         </Typography>
-        <Button color="inherit" component={Link} to="/users">
+        <Button color="inherit" variant="outlined" sx={{ marginRight: 2,  borderRadius: 4}} component={Link} to="/users">
           ユーザー一覧
         </Button>
-        <Button color="inherit" component={Link} to="/tasks">
+        <Button color="inherit" variant="outlined" sx={{ borderRadius: 4}} component={Link} to="/tasks">
           タスク一覧
         </Button>
         <div style={{ flexGrow: 1 }}></div>
