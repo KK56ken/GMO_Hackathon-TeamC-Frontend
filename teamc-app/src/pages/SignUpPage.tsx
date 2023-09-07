@@ -1,5 +1,6 @@
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -11,8 +12,24 @@ import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import { SignUpUser } from "../types/SignUpUser";
 import { PostSignupData } from "../service/api/AuthAPIClient";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import { emojis } from "../constants/Emojis";
+
+const names = ["React", "Python", "Ruby", "Java", "Kotlin", "Swift"];
 
 const SignUpPage = () => {
+  const [skillSet, setSkillSet] = React.useState<string[]>([]);
+
+  const handleChange = (event: SelectChangeEvent<typeof skillSet>) => {
+    const {
+      target: { value },
+    } = event;
+    setSkillSet(value as string[]);
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -49,6 +66,81 @@ const SignUpPage = () => {
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             {/* 適宜必要なフィールドを追加 */}
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="userName"
+                label="User Name"
+                name="userName"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <InputLabel>Department *</InputLabel>
+              <Select
+                required
+                fullWidth
+                name="department"
+                labelId="department"
+                id="department"
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>えらい部署</MenuItem>
+                <MenuItem value={20}>普通の部署</MenuItem>
+                <MenuItem value={30}>少しえらい部署</MenuItem>
+              </Select>
+            </Grid>
+            <Grid item xs={12}>
+              <InputLabel>Skill Set *</InputLabel>
+              <Select
+                fullWidth
+                name="skillset"
+                labelId="skillset"
+                id="skillset"
+                multiple
+                value={skillSet}
+                onChange={handleChange}
+                input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                renderValue={(selected) => (
+                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} />
+                    ))}
+                  </Box>
+                )}
+              >
+                {names.map((name) => (
+                  <MenuItem key={name} value={name}>
+                    {name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="slackId"
+                label="Slack ID"
+                name="slackId"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <InputLabel>今のステータス *</InputLabel>
+              <Select
+                required
+                fullWidth
+                name="department"
+                labelId="department"
+                id="department"
+              >
+                <MenuItem value={0}>余裕がある {emojis[0]}</MenuItem>
+                <MenuItem value={1}>忙しい {emojis[1]}</MenuItem>
+                <MenuItem value={2}>どうしようもない {emojis[2]}</MenuItem>
+              </Select>
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 required

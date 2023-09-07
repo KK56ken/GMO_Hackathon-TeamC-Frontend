@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import WelcomePage from "./pages/WelcomePage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
+import UserEditPage from "./pages/UserEditPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/login" Component={LoginPage} />
           <Route path="/users" Component={UserListPage} />
           <Route path="/users/:id" Component={UserProfilePage} />
+          <Route path="/users/:id/edit" Component={UserEditPage} />
           <Route path="/tasks" Component={TaskListPage} />
           <Route path="/tasks/:id" Component={TaskDetailPage} />
         </Routes>
