@@ -4,75 +4,50 @@ import Typography from "@mui/material/Typography";
 import TaskComponent from "../components/TaskComponent";
 import { emojis } from "../constants/Emojis";
 import SkillSets from "../components/SkillSets";
-
-type UserProfilePageProps = {
-  name: string;
-  department: string;
-  skillSet: string[];
-  slackId: string;
-  status: number;
-  tasks: task[];
-};
-
-type task = {
-  id: number;
-  title: string;
-  userName: string;
-  skillSet: string[];
-  taskDate: Date;
-  concernDesc: string;
-};
+import { useEffect, useState } from "react";
+import { fetchUserInfo } from "../service/api/UserAPIClient";
+import { DetailUser } from "../types/DetailUser";
+import { useParams } from "react-router-dom";
 
 const UserProfilePage = () => {
-  const tasks: task[] = [
-    {
-      id: 1,
-      title: "Task 1",
-      userName: "User 1",
-      skillSet: ["skill 1", "skill 2"],
-      taskDate: new Date(),
-      concernDesc: "Concern 1",
-    },
-    {
-      id: 2,
-      title: "Task 2",
-      userName: "User 2",
-      skillSet: ["skill 1", "skill 2"],
-      taskDate: new Date(),
-      concernDesc: "Concern 2",
-    },
-  ];
+  const [detailUser, setDetailUser] = useState<DetailUser | null>(null);
+  const urlParams = useParams<{ id: string }>();
 
-  const userProfilePageProps: UserProfilePageProps = {
-    name: "User 1",
-    department: "Department 1",
-    skillSet: ["react", "Docker"],
-    slackId: "U05QQ2C3B61",
-    status: 2,
-    tasks: tasks,
-  };
-  return (
+  useEffect(() => {
+    const getUserDetail = async () => {
+      const id = Number(urlParams.id);
+      const response: DetailUser | null = await fetchUserInfo(id);
+      if (response != null) {
+        setDetailUser(response);
+      }
+    };
+    getUserDetail();
+  }, []);
+
+  return detailUser == null ? (
+    <></>
+  ) : (
     <Container>
       <Box display="flex" alignItems="center">
         <Typography variant="h2" marginRight="16px">
-          {userProfilePageProps.name} {emojis[userProfilePageProps.status]}
+          {detailUser.name} {emojis[detailUser.status]}
         </Typography>
         <Button
           variant="contained"
           color="primary"
-          href={`slack://user?team=T05JTJTBSTS&id=${userProfilePageProps.slackId}`}
+          href={`slack://user?team=T05JTJTBSTS&id=${detailUser.slackId}`}
         >
           この人とDMする
         </Button>
       </Box>
       <Typography color="text.secondary" gutterBottom>
-        Department: {userProfilePageProps.department}
+        Department: {detailUser.department}
       </Typography>
-      <SkillSets skillSet={userProfilePageProps.skillSet} />
+      <SkillSets skillSet={detailUser.skillSet} />
       <Typography variant="h4">抱えているタスク</Typography>
       <Typography variant="body2">
         <Grid container spacing={2}>
-          {userProfilePageProps.tasks.map((task) => (
+          {detailUser.tasks.map((task) => (
             <Grid item xs={12} sm={6} md={4} key={task.id}>
               <TaskComponent
                 id={task.id}
