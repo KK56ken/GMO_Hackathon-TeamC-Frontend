@@ -12,18 +12,41 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Chip from "@mui/material/Chip";
 import { InputLabel } from "@mui/material";
+import { PostTask } from "../service/api/Task";
 
-const names = ["React", "Python", "Ruby", "Java", "Kotlin", "Swift"];
+const names = [1, 2, 3, 4, 5, 6];
 
 const CreateTask = () => {
 
-  const [skillSet, setSkillSet] = React.useState<string[]>([]);
+  const [skillSet, setSkillSet] = React.useState<number[]>([]);
+  const [taskName, setTaskName] = React.useState("");
+  const [taskDetail, setTaskDetail] = React.useState("");
+  const [concernDesc, setConcernDesc] = React.useState("");
+  const [ticketLink, setTicketLink] = React.useState("");
 
   const handleChange = (event: SelectChangeEvent<typeof skillSet>) => {
     const {
       target: { value },
     } = event;
-    setSkillSet(value as string[]);
+    setSkillSet(value as number[]);
+  };
+
+  const handleAddTask = async () => {
+    const taskData = {
+      title: taskName,
+      token: "",
+      task_date: new Date(),
+      skill_set: skillSet,
+      concern_desc: concernDesc,
+      task_detail: taskDetail,
+      ticket_link: ticketLink
+    };
+    try {
+      const response = await PostTask(taskData);
+      console.log("Task added:", response);
+    } catch (error) {
+      console.error("Error adding task:", error);
+    }
   };
 
 
@@ -44,6 +67,7 @@ const CreateTask = () => {
                   name=""
                   label="タスク名"
                   id="task-name"
+                  onChange={(e) => setTaskName(e.target.value)}
                 />
             </Grid>
             <Grid item xs={4}>
@@ -94,6 +118,7 @@ const CreateTask = () => {
                   name=""
                   label="タスク概要"
                   id="task-detaile"
+                  onChange={(e) => setTaskDetail(e.target.value)}
                 />
             </Grid>
 
@@ -113,12 +138,30 @@ const CreateTask = () => {
                 name=""
                 label="お悩みポイントの詳細"
                 id="task-detaile"
+                onChange={(e) => setConcernDesc(e.target.value)}
               />
+            
+            <Grid item xs={4}>
+              <Typography variant="h5" component="div">
+                RedMineLink：
+              </Typography>
             </Grid>
 
+            <Grid item xs={8}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name=""
+                label="お悩みポイントの詳細"
+                id="task-detaile"
+                onChange={(e) => setTicketLink(e.target.value)}
+              />
+            </Grid>
+          </Grid>
         </CardContent>
         <Grid item>
-          <Button size="large">タスクを追加</Button>
+          <Button size="large" onClick={handleAddTask}>タスクを追加</Button>
         </Grid>
       </Card>
     </Container>
