@@ -10,6 +10,8 @@ export const fetchUsers = async (): Promise<AbstractUser[] | null> => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJleHAiOjE2OTQwODMzNTR9.xzq49vYoanxDMi1efG5t5hRwaq67OhWogM4eTjPj-8A",
       },
     });
 
@@ -20,11 +22,7 @@ export const fetchUsers = async (): Promise<AbstractUser[] | null> => {
     }
 
     const data = await response.json();
-    if (Array.isArray(data.users)) {
-      return data.users as AbstractUser[];
-    } else {
-      throw new Error("Invalid response format");
-    }
+    return data as AbstractUser[];
   } catch (error) {
     console.error(error);
     return null;

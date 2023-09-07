@@ -26,10 +26,10 @@ const UserListPage = () => {
       <h1>ユーザー一覧</h1>
       <Grid container spacing={2}>
         {users.map((user) => (
-          <Grid item xs={12} sm={6} md={4} key={user.userId}>
+          <Grid item xs={12} sm={6} md={4} key={user.user_id}>
             <UserComponent
-              userId={user.userId}
-              userName={user.userName}
+              user_id={user.user_id}
+              user_name={user.user_name}
               status={user.status}
               tasks={user.tasks}
             />

@@ -25,3 +25,5 @@ export function setCookie(
 
   document.cookie = updatedCookie;
 }
+
+// cookieをgetする関数
