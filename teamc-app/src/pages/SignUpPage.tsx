@@ -9,15 +9,24 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
+import { SignUpUser } from "../types/SignUpUser";
+import { PostSignupData } from "../service/api/AuthAPIClient";
 
 const SignUpPage = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    // TODO: バリデーションチェック
+    const postData: SignUpUser = {
+      email: data.get("email") as string,
+      password: data.get("password") as string,
+    };
+    const response = await PostSignupData(postData);
+    if (response != null) {
+      // ログインページに遷移
+      window.location.href = "/login";
+    }
   };
 
   return (
