@@ -22,6 +22,7 @@ const UserProfilePage = () => {
       }
     };
     getUserDetail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return detailUser == null ? (
