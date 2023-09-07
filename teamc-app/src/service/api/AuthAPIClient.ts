@@ -20,7 +20,6 @@ export const PostSignupData = async (data: SignUpUser) => {
     }
 
     const res = await response.json();
-    console.log(res);
     return res;
   } catch (error) {
     console.error(error);
@@ -37,8 +36,6 @@ export const PostLoginData = async (data: AuthUser) => {
       },
       body: "username=" + data.username + "&password=" + data.password,
     });
-
-    console.log(response);
     if (!response.ok) {
       throw new Error(
         `Failed to fetch data: ${response.status} - ${response.statusText}`
@@ -46,7 +43,6 @@ export const PostLoginData = async (data: AuthUser) => {
     }
 
     const res = await response.json();
-    console.log(res);
     return res;
   } catch (error) {
     console.error(error);

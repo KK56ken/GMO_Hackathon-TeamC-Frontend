@@ -9,7 +9,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { AuthUser } from "../types/AuthUser";
 import { PostLoginData } from "../service/api/AuthAPIClient";
-import { setCookie } from "../service/cookie/CookieHandler";
+import Cookies from "js-cookie";
 
 const LoginPage = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -19,11 +19,9 @@ const LoginPage = () => {
       username: data.get("email") as string,
       password: data.get("password") as string,
     };
-    console.log(postData);
     const response = await PostLoginData(postData);
     if (response != null) {
-      // tokenをcookieにhttpOnlyで保存する
-      setCookie("token", response.token, { httpOnly: true });
+      Cookies.set("access_token", response.access_token, { expires: 3 });
       window.location.href = "/users";
     }
   };
