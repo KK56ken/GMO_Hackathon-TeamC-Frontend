@@ -1,8 +1,8 @@
 export type AbstractTask = {
   id: number;
   title: string;
-  userName: string;
-  skillSet: string[];
-  taskDate: Date;
-  concernDesc: string;
+  user_name: string;
+  skill_set: string[];
+  task_date: Date;
+  concern_desc: string;
 };
