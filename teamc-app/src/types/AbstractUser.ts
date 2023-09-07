@@ -1,6 +1,6 @@
 export type AbstractUser = {
-  userId: number;
-  userName: string;
+  user_id: number;
+  user_name: string;
   status: number;
   tasks: string[];
 };

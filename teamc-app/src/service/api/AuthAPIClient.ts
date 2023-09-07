@@ -20,7 +20,6 @@ export const PostSignupData = async (data: SignUpUser) => {
     }
 
     const res = await response.json();
-    console.log(res);
     return res;
   } catch (error) {
     console.error(error);
@@ -33,11 +32,10 @@ export const PostLoginData = async (data: AuthUser) => {
     const response = await fetch(`${baseURL}/auth`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: JSON.stringify(data),
+      body: "username=" + data.username + "&password=" + data.password,
     });
-
     if (!response.ok) {
       throw new Error(
         `Failed to fetch data: ${response.status} - ${response.statusText}`
@@ -45,7 +43,6 @@ export const PostLoginData = async (data: AuthUser) => {
     }
 
     const res = await response.json();
-    console.log(res);
     return res;
   } catch (error) {
     console.error(error);
