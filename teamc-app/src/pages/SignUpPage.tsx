@@ -5,7 +5,7 @@ import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import React from "react";
+import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -18,16 +18,18 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { emojis } from "../constants/Emojis";
 
-const names = ["React", "Python", "Ruby", "Java", "Kotlin", "Swift"];
+const names = [0, 1, 2, 3, 4, 5];
 
 const SignUpPage = () => {
-  const [skillSet, setSkillSet] = React.useState<string[]>([]);
+  const [selectedDepartment, setSelectedDepartment] = useState<number>(0);
+  const [skillSet, setSkillSet] = useState<number[]>([]);
+  const [status, setStatus] = useState<number>(0);
 
-  const handleChange = (event: SelectChangeEvent<typeof skillSet>) => {
+  const handleChangeSkillset = (event: SelectChangeEvent<typeof skillSet>) => {
     const {
       target: { value },
     } = event;
-    setSkillSet(value as string[]);
+    setSkillSet(value as number[]);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -36,6 +38,11 @@ const SignUpPage = () => {
 
     // TODO: バリデーションチェック
     const postData: SignUpUser = {
+      name: data.get("userName") as string,
+      department_id: selectedDepartment,
+      skill_set: skillSet,
+      slack_id: data.get("slackId") as string,
+      status: status,
       email: data.get("email") as string,
       password: data.get("password") as string,
     };
@@ -83,25 +90,27 @@ const SignUpPage = () => {
                 name="department"
                 labelId="department"
                 id="department"
+                value={selectedDepartment}
+                onChange={(event) => {
+                  setSelectedDepartment(event.target.value as number);
+                }}
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>えらい部署</MenuItem>
-                <MenuItem value={20}>普通の部署</MenuItem>
-                <MenuItem value={30}>少しえらい部署</MenuItem>
+                <MenuItem value={1}>えらい部署</MenuItem>
+                <MenuItem value={2}>普通の部署</MenuItem>
+                <MenuItem value={3}>少しえらい部署</MenuItem>
               </Select>
             </Grid>
             <Grid item xs={12}>
               <InputLabel>Skill Set *</InputLabel>
               <Select
+                required
                 fullWidth
                 name="skillset"
                 labelId="skillset"
                 id="skillset"
                 multiple
                 value={skillSet}
-                onChange={handleChange}
+                onChange={handleChangeSkillset}
                 input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
                 renderValue={(selected) => (
                   <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
@@ -132,9 +141,13 @@ const SignUpPage = () => {
               <Select
                 required
                 fullWidth
-                name="department"
-                labelId="department"
-                id="department"
+                name="status"
+                labelId="status"
+                id="status"
+                value={status}
+                onChange={(event) => {
+                  setStatus(event.target.value as number);
+                }}
               >
                 <MenuItem value={0}>余裕がある {emojis[0]}</MenuItem>
                 <MenuItem value={1}>忙しい {emojis[1]}</MenuItem>

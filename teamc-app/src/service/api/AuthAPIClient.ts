@@ -30,14 +30,19 @@ export const PostSignupData = async (data: SignUpUser) => {
 
 export const PostLoginData = async (data: AuthUser) => {
   try {
+    const postData = {
+      username: data.username,
+      password: data.password,
+    };
     const response = await fetch(`${baseURL}/auth`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(postData),
     });
 
+    console.log(response);
     if (!response.ok) {
       throw new Error(
         `Failed to fetch data: ${response.status} - ${response.statusText}`

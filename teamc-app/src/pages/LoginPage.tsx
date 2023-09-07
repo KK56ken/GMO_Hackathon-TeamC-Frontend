@@ -16,9 +16,10 @@ const LoginPage = () => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const postData: AuthUser = {
-      email: data.get("email") as string,
+      username: data.get("email") as string,
       password: data.get("password") as string,
     };
+    console.log(postData);
     const response = await PostLoginData(postData);
     if (response != null) {
       // tokenをcookieにhttpOnlyで保存する
