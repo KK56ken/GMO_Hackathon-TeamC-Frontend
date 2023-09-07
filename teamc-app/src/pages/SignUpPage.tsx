@@ -5,7 +5,7 @@ import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -17,19 +17,50 @@ import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { emojis } from "../constants/Emojis";
+import { fetchDepartments, fetchSkills } from "../service/api/UtilAPIClient";
 
-const names = [0, 1, 2, 3, 4, 5];
+type department = {
+  department_id: number;
+  department_name: string;
+};
+
+type skill = {
+  skill_id: number;
+  skill_name: string;
+};
 
 const SignUpPage = () => {
+  const [departments, setDepartments] = useState<department[]>([]);
+  const [skills, setSkills] = useState<skill[]>([]);
   const [selectedDepartment, setSelectedDepartment] = useState<number>(0);
-  const [skillSet, setSkillSet] = useState<number[]>([]);
+  const [selectedSkillSet, setSelectedSkillSet] = useState<number[]>([]);
   const [status, setStatus] = useState<number>(0);
 
-  const handleChangeSkillset = (event: SelectChangeEvent<typeof skillSet>) => {
+  useEffect(() => {
+    const getDepartments = async () => {
+      const response = await fetchDepartments();
+      if (response != null) {
+        setDepartments(response);
+      }
+    };
+    const getSkills = async () => {
+      const response = await fetchSkills();
+      if (response != null) {
+        setSkills(response);
+      }
+    };
+
+    getDepartments();
+    getSkills();
+  }, []);
+
+  const handleChangeSelectedSkillSet = (
+    event: SelectChangeEvent<typeof selectedSkillSet>
+  ) => {
     const {
       target: { value },
     } = event;
-    setSkillSet(value as number[]);
+    setSelectedSkillSet(value as number[]);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -40,7 +71,7 @@ const SignUpPage = () => {
     const postData: SignUpUser = {
       name: data.get("userName") as string,
       department_id: selectedDepartment,
-      skill_set: skillSet,
+      skill_set: selectedSkillSet,
       slack_id: data.get("slackId") as string,
       status: status,
       email: data.get("email") as string,
@@ -95,9 +126,14 @@ const SignUpPage = () => {
                   setSelectedDepartment(event.target.value as number);
                 }}
               >
-                <MenuItem value={1}>えらい部署</MenuItem>
-                <MenuItem value={2}>普通の部署</MenuItem>
-                <MenuItem value={3}>少しえらい部署</MenuItem>
+                {departments.map((department) => (
+                  <MenuItem
+                    key={department.department_id}
+                    value={department.department_id}
+                  >
+                    {department.department_name}
+                  </MenuItem>
+                ))}
               </Select>
             </Grid>
             <Grid item xs={12}>
@@ -109,20 +145,20 @@ const SignUpPage = () => {
                 labelId="skillset"
                 id="skillset"
                 multiple
-                value={skillSet}
-                onChange={handleChangeSkillset}
+                value={selectedSkillSet}
+                onChange={handleChangeSelectedSkillSet}
                 input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
                 renderValue={(selected) => (
                   <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                     {selected.map((value) => (
-                      <Chip key={value} label={value} />
+                      <Chip key={value} label={skills[value - 1].skill_name} />
                     ))}
                   </Box>
                 )}
               >
-                {names.map((name) => (
-                  <MenuItem key={name} value={name}>
-                    {name}
+                {skills.map((skill) => (
+                  <MenuItem key={skill.skill_id} value={skill.skill_id}>
+                    {skill.skill_name}
                   </MenuItem>
                 ))}
               </Select>
