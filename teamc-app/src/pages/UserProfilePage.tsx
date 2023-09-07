@@ -53,10 +53,10 @@ const UserProfilePage = () => {
               <TaskComponent
                 id={task.id}
                 title={task.title}
-                userName={task.userName}
-                skillSet={task.skillSet}
-                taskDate={task.taskDate}
-                concernDesc={task.concernDesc}
+                user_name={task.user_name}
+                skill_set={task.skill_set}
+                task_date={task.task_date}
+                concern_desc={task.concern_desc}
               />
             </Grid>
           ))}
