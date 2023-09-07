@@ -40,6 +40,7 @@ const TaskDetailPage = () => {
           href={`slack://user?team=T05JTJTBSTS&id=${taskDetailPageProps.slackId}`}
           target="_blank"
           rel="noopener noreferrer"
+          sx={{ marginRight: 1 }}
         >
           このタスクを助ける(DMへ)
         </Button>
