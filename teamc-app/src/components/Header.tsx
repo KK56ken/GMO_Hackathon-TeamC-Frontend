@@ -12,10 +12,10 @@ const Header: React.FC = () => {
         <Typography variant="h6" component="div" sx={{ marginRight: 3 }}>
           タスクヘルプツール
         </Typography>
-        <Button color="inherit" variant="outlined" sx={{ marginRight: 2,  borderRadius: 4}} component={Link} to="/users">
+        <Button color="inherit" variant="outlined" sx={{ marginRight: 2,  borderRadius: 4, borderColor: "#CCCCCC" }} component={Link} to="/users">
           ユーザー一覧
         </Button>
-        <Button color="inherit" variant="outlined" sx={{ borderRadius: 4}} component={Link} to="/tasks">
+        <Button color="inherit" variant="outlined" sx={{ borderRadius: 4, borderColor: "#CCCCCC" }} component={Link} to="/tasks">
           タスク一覧
         </Button>
         <div style={{ flexGrow: 1 }}></div>
