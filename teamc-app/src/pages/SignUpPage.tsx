@@ -18,6 +18,15 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { emojis } from "../constants/Emojis";
 import { fetchDepartments, fetchSkills } from "../service/api/UtilAPIClient";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    background: {
+      default: '#EDEDF8',
+    },
+  },
+});
 
 type department = {
   department_id: number;
@@ -85,151 +94,153 @@ const SignUpPage = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            {/* 適宜必要なフィールドを追加 */}
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="userName"
-                label="User Name"
-                name="userName"
-              />
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs"  sx={{ bgcolor: "#FFFFFF", borderRadius: 1, marginBottom: 5 }}>
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 4,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main", marginTop: 3  }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+              {/* 適宜必要なフィールドを追加 */}
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="userName"
+                  label="User Name"
+                  name="userName"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <InputLabel>Department *</InputLabel>
+                <Select
+                  required
+                  fullWidth
+                  name="department"
+                  labelId="department"
+                  id="department"
+                  value={selectedDepartment}
+                  onChange={(event) => {
+                    setSelectedDepartment(event.target.value as number);
+                  }}
+                >
+                  {departments.map((department) => (
+                    <MenuItem
+                      key={department.department_id}
+                      value={department.department_id}
+                    >
+                      {department.department_name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+              <Grid item xs={12}>
+                <InputLabel>Skill Set *</InputLabel>
+                <Select
+                  required
+                  fullWidth
+                  name="skillset"
+                  labelId="skillset"
+                  id="skillset"
+                  multiple
+                  value={selectedSkillSet}
+                  onChange={handleChangeSelectedSkillSet}
+                  input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                  renderValue={(selected) => (
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip key={value} label={skills[value - 1].skill_name} />
+                      ))}
+                    </Box>
+                  )}
+                >
+                  {skills.map((skill) => (
+                    <MenuItem key={skill.skill_id} value={skill.skill_id}>
+                      {skill.skill_name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="slackId"
+                  label="Slack ID"
+                  name="slackId"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <InputLabel>今のステータス *</InputLabel>
+                <Select
+                  required
+                  fullWidth
+                  name="status"
+                  labelId="status"
+                  id="status"
+                  value={status}
+                  onChange={(event) => {
+                    setStatus(event.target.value as number);
+                  }}
+                >
+                  <MenuItem value={0}>余裕がある {emojis[0]}</MenuItem>
+                  <MenuItem value={1}>忙しい {emojis[1]}</MenuItem>
+                  <MenuItem value={2}>どうしようもない {emojis[2]}</MenuItem>
+                </Select>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <InputLabel>Department *</InputLabel>
-              <Select
-                required
-                fullWidth
-                name="department"
-                labelId="department"
-                id="department"
-                value={selectedDepartment}
-                onChange={(event) => {
-                  setSelectedDepartment(event.target.value as number);
-                }}
-              >
-                {departments.map((department) => (
-                  <MenuItem
-                    key={department.department_id}
-                    value={department.department_id}
-                  >
-                    {department.department_name}
-                  </MenuItem>
-                ))}
-              </Select>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2, marginBottom: 3  }}
+            >
+              Sign Up
+            </Button>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link href="/login" variant="body2">
+                  Already have an account? login
+                </Link>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <InputLabel>Skill Set *</InputLabel>
-              <Select
-                required
-                fullWidth
-                name="skillset"
-                labelId="skillset"
-                id="skillset"
-                multiple
-                value={selectedSkillSet}
-                onChange={handleChangeSelectedSkillSet}
-                input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-                renderValue={(selected) => (
-                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                    {selected.map((value) => (
-                      <Chip key={value} label={skills[value - 1].skill_name} />
-                    ))}
-                  </Box>
-                )}
-              >
-                {skills.map((skill) => (
-                  <MenuItem key={skill.skill_id} value={skill.skill_id}>
-                    {skill.skill_name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="slackId"
-                label="Slack ID"
-                name="slackId"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <InputLabel>今のステータス *</InputLabel>
-              <Select
-                required
-                fullWidth
-                name="status"
-                labelId="status"
-                id="status"
-                value={status}
-                onChange={(event) => {
-                  setStatus(event.target.value as number);
-                }}
-              >
-                <MenuItem value={0}>余裕がある {emojis[0]}</MenuItem>
-                <MenuItem value={1}>忙しい {emojis[1]}</MenuItem>
-                <MenuItem value={2}>どうしようもない {emojis[2]}</MenuItem>
-              </Select>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign Up
-          </Button>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link href="/login" variant="body2">
-                Already have an account? login
-              </Link>
-            </Grid>
-          </Grid>
+          </Box>
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </ThemeProvider>
   );
 };
 

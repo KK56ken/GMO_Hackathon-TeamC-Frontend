@@ -43,6 +43,7 @@ const CreateTask = () => {
     };
     try {
       const response = await PostTask(taskData);
+      window.location.href = "/tasks";
       console.log("Task added:", response);
     } catch (error) {
       console.error("Error adding task:", error);
@@ -161,7 +162,7 @@ const CreateTask = () => {
           </Grid>
         </CardContent>
         <Grid item>
-          <Button size="large" onClick={handleAddTask}>タスクを追加</Button>
+          <Button color="inherit" variant="outlined" sx={{ borderRadius: 4 }} size="large" onClick={handleAddTask}>タスクを追加</Button>
         </Grid>
       </Card>
     </Container>
