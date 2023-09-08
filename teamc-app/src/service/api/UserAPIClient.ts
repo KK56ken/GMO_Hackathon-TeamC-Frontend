@@ -58,7 +58,7 @@ export const fetchUserInfo = async (id: number) => {
         department: data.department,
         name: data.name,
         skillSet: data.skill_set,
-        slackId: data.slackId,
+        slackId: data.slack_id,
         status: data.status,
         tasks: data.tasks as AbstractTask[],
       };
