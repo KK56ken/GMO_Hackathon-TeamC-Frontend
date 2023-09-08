@@ -7,7 +7,7 @@ const WelcomePage = () => {
     <Container maxWidth="sm">
       <Box mt={5} textAlign="center">
         <Typography variant="h4" mt={3}>
-          ようこそ、タスクヘルプツールへ！
+          ようこそ、tasQへ！
         </Typography>
         <Grid container spacing={2} justifyContent="center" mt={3}>
           <Grid item>

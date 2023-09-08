@@ -25,7 +25,7 @@ const Header: React.FC = () => {
     >
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ marginRight: 3 }}>
-          タスクヘルプツール
+          tasQ
         </Typography>
         <Button
           color="inherit"
