@@ -9,6 +9,7 @@ import WelcomePage from "./pages/WelcomePage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import UserEditPage from "./pages/UserEditPage";
+import CreateTask from "./pages/CreateTask" ;
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/users/:id/edit" Component={UserEditPage} />
           <Route path="/tasks" Component={TaskListPage} />
           <Route path="/tasks/:id" Component={TaskDetailPage} />
+          <Route path="/tasks/create" Component={CreateTask} />
         </Routes>
       </Router>
     </div>
