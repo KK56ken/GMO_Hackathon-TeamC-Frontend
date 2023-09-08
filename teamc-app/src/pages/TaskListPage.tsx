@@ -20,14 +20,15 @@ const TaskListPage = () => {
   return (
     
     <Container>
-      <Grid container spacing={2}>
+      <Grid container alignItems="flex-end" spacing={2}>
         <Grid item xs={10}>
-          <h1>TaskListPage</h1>
+          <h1 style={{ lineHeight: 0, marginLeft: 10 }}>TaskListPage</h1>
         </Grid>
         <Grid item xs={2}>
-          <Button color="inherit" variant="outlined" sx={{ borderRadius: 4}} component={Link} to="/tasks/create">タスクの追加</Button>
+          <Button color="inherit" variant="outlined" sx={{ borderRadius: 4, borderColor: "#AAAAAA"}} component={Link} to="/tasks/create">タスクの追加</Button>
         </Grid>
       </Grid>
+      <hr style={{ marginBottom: 30 }}/>
       
       <Grid container spacing={2}>
         {data.length > 0 && data.map((task: any) => (
