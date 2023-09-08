@@ -13,8 +13,13 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import Chip from "@mui/material/Chip";
 import { InputLabel } from "@mui/material";
 import { PostTask } from "../service/api/Task";
+import { useEffect, useState } from "react";
+import { fetchSkills } from "../service/api/UtilAPIClient";
 
-const names = [1, 2, 3, 4, 5, 6];
+type skill = {
+  skill_id: number;
+  skill_name: string;
+};
 
 const CreateTask = () => {
 
@@ -23,6 +28,7 @@ const CreateTask = () => {
   const [taskDetail, setTaskDetail] = React.useState("");
   const [concernDesc, setConcernDesc] = React.useState("");
   const [ticketLink, setTicketLink] = React.useState("");
+  const [skills, setSkills] = useState<skill[]>([]);
 
   const handleChange = (event: SelectChangeEvent<typeof skillSet>) => {
     const {
@@ -31,10 +37,20 @@ const CreateTask = () => {
     setSkillSet(value as number[]);
   };
 
+  useEffect(() => {
+    const getSkills = async () => {
+      const response = await fetchSkills();
+      if (response != null) {
+        setSkills(response);
+      }
+    };
+
+    getSkills();
+  }, []);
+
   const handleAddTask = async () => {
     const taskData = {
       title: taskName,
-      token: "",
       task_date: new Date(),
       skill_set: skillSet,
       concern_desc: concernDesc,
@@ -97,9 +113,9 @@ const CreateTask = () => {
                     </Box>
                   )}
                 >
-                  {names.map((name) => (
-                    <MenuItem key={name} value={name}>
-                      {name}
+                  {skills.map((data) => (
+                    <MenuItem key={data.skill_id} value={data.skill_id}>
+                      {data.skill_name}
                     </MenuItem>
                   ))}
                 </Select>
