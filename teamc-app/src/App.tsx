@@ -8,6 +8,9 @@ import Header from "./components/Header";
 import WelcomePage from "./pages/WelcomePage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
+import UserEditPage from "./pages/UserEditPage";
+import MyProfilePage from "./pages/MyProfilePage";
+import CreateTask from "./pages/CreateTask" ;
 
 function App() {
   return (
@@ -18,10 +21,13 @@ function App() {
           <Route path="/" Component={WelcomePage} />
           <Route path="/signup" Component={SignUpPage} />
           <Route path="/login" Component={LoginPage} />
+          <Route path="/myprofile" Component={MyProfilePage} />
+          <Route path="/myprofile/edit" Component={UserEditPage} />
           <Route path="/users" Component={UserListPage} />
           <Route path="/users/:id" Component={UserProfilePage} />
           <Route path="/tasks" Component={TaskListPage} />
           <Route path="/tasks/:id" Component={TaskDetailPage} />
+          <Route path="/tasks/create" Component={CreateTask} />
         </Routes>
       </Router>
     </div>

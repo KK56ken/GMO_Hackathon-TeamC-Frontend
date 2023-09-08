@@ -5,20 +5,21 @@ import TaskComponent from "../components/TaskComponent";
 import { emojis } from "../constants/Emojis";
 import SkillSets from "../components/SkillSets";
 import { useEffect, useState } from "react";
-import { fetchUserInfo } from "../service/api/UserAPIClient";
+import { fetchMyInfo } from "../service/api/UserAPIClient";
 import { DetailUser } from "../types/DetailUser";
-import { useParams } from "react-router-dom";
+import { UpdateUser } from "../types/UpdateUser";
+import { Link } from "react-router-dom";
 
-const UserProfilePage = () => {
+const MyProfilePage = () => {
   const [detailUser, setDetailUser] = useState<DetailUser | null>(null);
-  const urlParams = useParams<{ id: string }>();
+  const [updateUser, setUpdateUser] = useState<UpdateUser | null>(null);
 
   useEffect(() => {
     const getUserDetail = async () => {
-      const id = Number(urlParams.id);
-      const response: DetailUser | null = await fetchUserInfo(id);
+      const response = await fetchMyInfo();
       if (response != null) {
-        setDetailUser(response);
+        setDetailUser(response.detailUser);
+        setUpdateUser(response.updateUser);
       }
     };
     getUserDetail();
@@ -28,23 +29,25 @@ const UserProfilePage = () => {
   return detailUser == null ? (
     <></>
   ) : (
-    <Container sx={{ marginTop: 5}}>
-      <Box display="flex" alignItems="flex-end" sx={{ marginBottom: 2}}>
+    <Container sx={{ marginTop: 5 }}>
+      <Box display="flex" alignItems="flex-end" sx={{ marginBottom: 2 }}>
         <Typography variant="h2" marginRight="0px" style={{ lineHeight: 0.75 }}>
           {detailUser.name}
         </Typography>
-        <Typography fontSize={70} marginRight="25px" style={{ lineHeight: 0.9 }}>
+        <Typography
+          fontSize={70}
+          marginRight="25px"
+          style={{ lineHeight: 0.9 }}
+        >
           {emojis[detailUser.status]}
         </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          href={`slack://user?team=T05JTJTBSTS&id=${detailUser.slackId}`}
-        >
-          この人とDMする
-        </Button>
+        <Link to="/myprofile/edit" state={{ updateUser: updateUser }}>
+          <Button variant="contained" color="secondary">
+            プロフィールを編集
+          </Button>
+        </Link>
       </Box>
-      <hr/>
+      <hr />
       <Box display="flex" alignItems="flex-end" sx={{ marginBottom: 5 }}>
         <Typography color="text.secondary" gutterBottom sx={{ marginRight: 2 }}>
           Department: {detailUser.department}
@@ -52,7 +55,9 @@ const UserProfilePage = () => {
         <SkillSets skillSet={detailUser.skillSet} />
       </Box>
       <Box sx={{ borderLeft: 5, borderColor: "#BBBBBB", marginTop: 2 }}>
-        <Typography variant="h4" sx={{ marginLeft: 1 }}>抱えているタスク</Typography>
+        <Typography variant="h4" sx={{ marginLeft: 1 }}>
+          抱えているタスク
+        </Typography>
       </Box>
       <Typography variant="body2">
         <Grid container spacing={2}>
@@ -74,4 +79,4 @@ const UserProfilePage = () => {
   );
 };
 
-export default UserProfilePage;
+export default MyProfilePage;

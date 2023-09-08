@@ -1,51 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UserComponent from "../components/UserComponent";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
-
-const users = [
-  {
-    userId: 1,
-    userName: "user1",
-    status: 0,
-    tasks: ["task1", "task2", "task3"],
-  },
-  {
-    userId: 2,
-    userName: "user2",
-    status: 1,
-    tasks: ["task4", "task5", "task6"],
-  },
-  {
-    userId: 3,
-    userName: "user3",
-    status: 2,
-    tasks: ["task7", "task8", "task9"],
-  },
-  {
-    userId: 4,
-    userName: "user4",
-    status: 0,
-    tasks: [],
-  },
-  {
-    userId: 5,
-    userName: "user5",
-    status: 2,
-    tasks: ["task14", "task25", "task36"],
-  },
-];
+import { fetchUsers } from "../service/api/UserAPIClient";
+import { AbstractUser } from "../types/AbstractUser";
+import { Box } from "@mui/system";
 
 const UserListPage = () => {
+  const [users, setUsers] = useState<AbstractUser[]>([]);
+
+  useEffect(() => {
+    async function getUsers() {
+      const usersResponse = await fetchUsers();
+      if (usersResponse != null) {
+        setUsers(usersResponse);
+      }
+    }
+    getUsers();
+  }, []);
+
   return (
     <Container>
-      <h1>ユーザー一覧</h1>
+      <h1 style={{ marginTop: 30, marginBottom: 0, marginLeft:10 }}>ユーザー一覧</h1>
+      <hr style={{ marginBottom: 30 }}/>
       <Grid container spacing={2}>
         {users.map((user) => (
-          <Grid item xs={12} sm={6} md={4} key={user.userId}>
+          <Grid item xs={12} sm={6} md={4} key={user.user_id}>
             <UserComponent
-              userId={user.userId}
-              userName={user.userName}
+              user_id={user.user_id}
+              user_name={user.user_name}
               status={user.status}
               tasks={user.tasks}
             />
