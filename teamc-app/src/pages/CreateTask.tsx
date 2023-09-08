@@ -13,8 +13,13 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import Chip from "@mui/material/Chip";
 import { InputLabel } from "@mui/material";
 import { PostTask } from "../service/api/Task";
+import { useEffect, useState } from "react";
+import { fetchSkills } from "../service/api/UtilAPIClient";
 
-const names = [1, 2, 3, 4, 5, 6];
+type skill = {
+  skill_id: number;
+  skill_name: string;
+};
 
 const CreateTask = () => {
 
@@ -23,6 +28,7 @@ const CreateTask = () => {
   const [taskDetail, setTaskDetail] = React.useState("");
   const [concernDesc, setConcernDesc] = React.useState("");
   const [ticketLink, setTicketLink] = React.useState("");
+  const [skills, setSkills] = useState<skill[]>([]);
 
   const handleChange = (event: SelectChangeEvent<typeof skillSet>) => {
     const {
@@ -31,10 +37,20 @@ const CreateTask = () => {
     setSkillSet(value as number[]);
   };
 
+  useEffect(() => {
+    const getSkills = async () => {
+      const response = await fetchSkills();
+      if (response != null) {
+        setSkills(response);
+      }
+    };
+
+    getSkills();
+  }, []);
+
   const handleAddTask = async () => {
     const taskData = {
       title: taskName,
-      token: "",
       task_date: new Date(),
       skill_set: skillSet,
       concern_desc: concernDesc,
@@ -49,7 +65,6 @@ const CreateTask = () => {
       console.error("Error adding task:", error);
     }
   };
-
 
   return (
     <Container>
@@ -69,84 +84,82 @@ const CreateTask = () => {
           />
           <Grid container alignItems="flex-end" spacing={2}>
             <Grid item xs={10}>
-              <Typography component="div" sx={{ fontSize: 20, marginLeft: 0.5 }}>
-                技術
-              </Typography>
+              <Typography component="div" sx={{ fontSize: 20, marginLeft: 0.5 }}>技術</Typography>
             </Grid>
             <Grid item xs={2}>
               <InputLabel>Skill Set *</InputLabel>
             </Grid>
           </Grid>
-          <Select
-            fullWidth
-            name="skillset"
-            labelId="skillset"
-            id="skillset"
-            multiple
-            value={skillSet}
-            onChange={handleChange}
-            input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-            renderValue={(selected) => (
-              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                {selected.map((value) => (
-                  <Chip key={value} label={value} />
-                ))}
-              </Box>
-            )}
-            sx={{ marginBottom: 4 }}
-          >
-            {names.map((name) => (
-              <MenuItem key={name} value={name}>
-                {name}
-              </MenuItem>
-            ))}
-          </Select>
-          <Typography component="div" sx={{ fontSize: 20, marginLeft: 0.5 }}>
-            タスク概要
-          </Typography>
-          <TextField
-            required
-            fullWidth
-            name=""
-            label="タスク概要"
-            id="task-detaile"
-            onChange={(e) => setTaskDetail(e.target.value)}
-            sx={{ marginBottom: 4 }}
-          />
-          <Typography component="div" sx={{ fontSize: 20, marginLeft: 0.5 }}>
-            お悩みポイントの詳細
-          </Typography>
-          <TextField
-            variant="outlined"
-            multiline
-            minRows="10"
-            required
-            fullWidth
-            name=""
-            label="お悩みポイントの詳細"
-            id="task-detaile"
-            onChange={(e) => setConcernDesc(e.target.value)}
-            sx={{ marginBottom: 4 }}
-          />
-          <Typography component="div" sx={{ fontSize: 20, marginLeft: 0.5 }}>
-            RedMineLink
-          </Typography>
-          <TextField
-            variant="outlined"
-            required
-            fullWidth
-            name=""
-            label="お悩みポイントの詳細"
-            id="task-detaile"
-            onChange={(e) => setTicketLink(e.target.value)}
-            sx={{ marginBottom: 4 }}
-          />
-          <Grid container alignItems='center' justifyContent='center' sx={{ marginTop: 2, marginBottom: 2 }}>
-            <Button variant="contained" color="primary" sx={{ borderRadius: 4 }} size="large" onClick={handleAddTask}>
-              タスクを追加
-            </Button>
-          </Grid>
-          
+            <Select
+              fullWidth
+              name="skillset"
+              labelId="skillset"
+              id="skillset"
+              multiple
+              value={skillSet}
+              onChange={handleChange}
+              input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+              renderValue={(selected) => (
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip key={value} label={skills[value - 1].skill_name} />
+                  ))}
+                </Box>
+              )}
+              sx={{ marginBottom: 4 }}
+            >
+              {skills.map((data) => (
+                <MenuItem key={data.skill_id} value={data.skill_id}>
+                  {data.skill_name}
+                </MenuItem>
+              ))}
+            </Select>
+            <Typography component="div" sx={{ fontSize: 20, marginLeft: 0.5 }}>
+              タスク概要
+            </Typography>
+            <TextField
+              required
+              fullWidth
+              name=""
+              label="タスク概要"
+              id="task-detaile"
+              onChange={(e) => setTaskDetail(e.target.value)}
+              sx={{ marginBottom: 4 }}
+            />
+            <Typography component="div" sx={{ fontSize: 20, marginLeft: 0.5 }}>
+              お悩みポイントの詳細
+            </Typography>
+            <TextField
+              variant="outlined"
+              multiline
+              minRows="10"
+              required
+              fullWidth
+              name=""
+              label="お悩みポイントの詳細"
+              id="task-detaile"
+              onChange={(e) => setConcernDesc(e.target.value)}
+              sx={{ marginBottom: 4 }}
+            />
+            <Typography component="div" sx={{ fontSize: 20, marginLeft: 0.5 }}>
+              RedMineLink
+            </Typography>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              name=""
+              label=""
+              id="task-detaile"
+              onChange={(e) => setTicketLink(e.target.value)}
+              sx={{ marginBottom: 4 }}
+            />
+            <Grid container alignItems='center' justifyContent='center' sx={{ marginTop: 2, marginBottom: 2 }}>
+              <Button variant="contained" color="primary" sx={{ borderRadius: 4 }} size="large" onClick={handleAddTask}>
+                タスクを追加
+              </Button>
+            </Grid>
+     
         </CardContent>
       </Card>
     </Container>
