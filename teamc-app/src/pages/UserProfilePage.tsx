@@ -28,10 +28,13 @@ const UserProfilePage = () => {
   return detailUser == null ? (
     <></>
   ) : (
-    <Container>
-      <Box display="flex" alignItems="center">
-        <Typography variant="h2" marginRight="16px">
-          {detailUser.name} {emojis[detailUser.status]}
+    <Container sx={{ marginTop: 5}}>
+      <Box display="flex" alignItems="flex-end" sx={{ marginBottom: 2}}>
+        <Typography variant="h2" marginRight="0px" style={{ lineHeight: 0.75 }}>
+          {detailUser.name}
+        </Typography>
+        <Typography fontSize={70} marginRight="25px" style={{ lineHeight: 0.9 }}>
+          {emojis[detailUser.status]}
         </Typography>
         <Button
           variant="contained"
@@ -41,11 +44,16 @@ const UserProfilePage = () => {
           この人とDMする
         </Button>
       </Box>
-      <Typography color="text.secondary" gutterBottom>
-        Department: {detailUser.department}
-      </Typography>
-      <SkillSets skillSet={detailUser.skillSet} />
-      <Typography variant="h4">抱えているタスク</Typography>
+      <hr/>
+      <Box display="flex" alignItems="flex-end" sx={{ marginBottom: 5 }}>
+        <Typography color="text.secondary" gutterBottom sx={{ marginRight: 2 }}>
+          Department: {detailUser.department}
+        </Typography>
+        <SkillSets skillSet={detailUser.skillSet} />
+      </Box>
+      <Box sx={{ borderLeft: 5, borderColor: "#BBBBBB", marginTop: 2 }}>
+        <Typography variant="h4" sx={{ marginLeft: 1 }}>抱えているタスク</Typography>
+      </Box>
       <Typography variant="body2">
         <Grid container spacing={2}>
           {detailUser.tasks.map((task) => (
