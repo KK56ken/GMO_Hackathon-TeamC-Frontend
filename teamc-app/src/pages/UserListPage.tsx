@@ -4,6 +4,7 @@ import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import { fetchUsers } from "../service/api/UserAPIClient";
 import { AbstractUser } from "../types/AbstractUser";
+import { Box } from "@mui/system";
 
 const UserListPage = () => {
   const [users, setUsers] = useState<AbstractUser[]>([]);
@@ -20,7 +21,8 @@ const UserListPage = () => {
 
   return (
     <Container>
-      <h1>ユーザー一覧</h1>
+      <h1 style={{ marginTop: 30, marginBottom: 0, marginLeft:10 }}>ユーザー一覧</h1>
+      <hr style={{ marginBottom: 30 }}/>
       <Grid container spacing={2}>
         {users.map((user) => (
           <Grid item xs={12} sm={6} md={4} key={user.user_id}>
