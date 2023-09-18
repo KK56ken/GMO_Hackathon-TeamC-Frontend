@@ -3,14 +3,16 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 const Header: React.FC = () => {
+  const navigate = useNavigate();
   const token = Cookies.get("access_token");
 
   const handleLogout = () => {
     Cookies.remove("access_token");
+    navigate('/');
     // 必要に応じて、他のログアウト処理やステートの更新をここに追加できます。
     // window.location.href = "/";
     // window.location.reload(); // オプション: ページをリロードしてUIを更新する
@@ -27,24 +29,30 @@ const Header: React.FC = () => {
         <Typography variant="h6" component="div" sx={{ marginRight: 3 }}>
           tasQ
         </Typography>
-        <Button
-          color="inherit"
-          variant="outlined"
-          sx={{ marginRight: 2, borderRadius: 4, borderColor: "#CCCCCC" }}
-          component={Link}
-          to="/users"
-        >
-          ユーザー一覧
-        </Button>
-        <Button
-          color="inherit"
-          variant="outlined"
-          sx={{ borderRadius: 4, borderColor: "#CCCCCC" }}
-          component={Link}
-          to="/tasks"
-        >
-          タスク一覧
-        </Button>
+        { token && (
+          <>
+            <Button
+              color="inherit"
+              variant="outlined"
+              sx={{ marginRight: 2, borderRadius: 4, borderColor: "#CCCCCC" }}
+              component={Link}
+              to="/users"
+            >
+              ユーザー一覧
+            </Button>
+            <Button
+              color="inherit"
+              variant="outlined"
+              sx={{ borderRadius: 4, borderColor: "#CCCCCC" }}
+              component={Link}
+              to="/tasks"
+            >
+              タスク一覧
+            </Button>
+          </>
+          )
+        }
+        
         <div style={{ flexGrow: 1 }}></div>
         {token ? (
           <>
